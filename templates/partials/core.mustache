@@ -1,0 +1,20 @@
+# Install global dependencies.
+RUN apt-get update \
+	&& apt-get install -y --no-install-recommends bash \
+	&& rm -rf /var/lib/apt/lists/*;
+
+# Create 'app' user.
+RUN groupadd --gid 1000 app \
+	&& useradd --uid 1000 --gid app --shell /bin/bash --create-home app \
+	&& mkdir -p /home/app/src/docroot \
+	&& mkdir -p /home/app/.local/opt \
+	&& mkdir -p /home/app/bin \
+	&& mkdir -p /home/app/.local/bin \
+	&& mkdir -p /home/app/src/docroot \
+	&& echo '. "$HOME/.bashrc"' >> /home/app/.profile \
+	&& echo 'PATH=$HOME/bin:$PATH' >> /home/app/.bashrc \
+	&& echo 'PATH=$HOME/src/docroot/vendor/bin:$PATH' >> /home/app/.bashrc \
+	&& echo 'PATH=$HOME/.local/bin:$PATH' >> /home/app/.bashrc \
+	&& chown -R app:app /home/app;
+
+WORKDIR /home/app/src/docroot
