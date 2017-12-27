@@ -41,3 +41,7 @@ RUN sed -i 's/#Include conf\/extra\/httpd-vhosts.conf/Include conf\/extra\/httpd
 
 # Add virtual host configuration.
 ADD httpd-vhosts.conf /usr/local/apache2/conf/extra/httpd-vhosts.conf
+
+# Create default web root.
+RUN mkdir -p /home/app/src/docroot \
+    && echo '<?php phpinfo();' >> /home/app/src/docroot/index.php
